@@ -1,6 +1,36 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
 import { Icon } from '@iconify/vue';
+
+const DisableInspect =() => {
+  document.addEventListener('keydown', function() {
+    if (event.keyCode == 123) {
+      alert("Inspect is not allowed!");
+      return false;
+    } else if (event.ctrlKey && event.shiftKey && event.keyCode == 73) {
+      alert("Inspect is not allowed!");
+      event.preventDefault();
+      return false;
+    } else if (event.ctrlKey && event.keyCode == 85) {
+      alert("Inspect is not allowed!");
+      return false;
+    }
+  }, false);
+      
+  if (document.addEventListener) {
+    document.addEventListener('contextmenu', function(e) {
+      alert("Inspect is not allowed!");
+      e.preventDefault();
+    }, false);
+    } else {
+      document.attachEvent('oncontextmenu', function() {
+        alert("Inspect is not allowed!");
+        window.event.returnValue = false;
+      });
+    }
+}
+
+// window.onload = DisableInspect()
 </script>
 <template>
   <header>

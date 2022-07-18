@@ -63,12 +63,13 @@ export default {
         .catch(err => {
             console.log(err);
         });
-      }
+      },
     },
     beforeMount(){
       this.GetAllPlayers();
       this.GetRounds();
       this.GetOrders();
+      // this.DisableInspect()
     }
 }
 </script>
@@ -87,7 +88,7 @@ export default {
         </h4>
         <div v-for="player in Players">
           <div v-if="player.round === round.round" class="playergrid" :class="player.winner == null ? 'unknown' : player.winner ? 'winner' : 'loser'">
-            <ul class="player">
+            <ul class="player" :class="player.Username == null ? 'empty' : ''">
               <div class="player-info">
                 <li :class="player.winner == null ? '' : player.winner ? '' : 'noselect'">
                   <div class="username">{{ player.Username }}</div>
@@ -188,7 +189,7 @@ export default {
   position: relative;
   z-index: 99;
 }
-.loser .player {
+.loser .player, .empty {
   opacity: .7;
   filter: grayscale(.95);
 }
@@ -199,6 +200,24 @@ export default {
   z-index: 100;
 }
 .round-2 .playergrid {
-  margin: 41.5px 0px;
+  margin: 26px 0px;
+}
+.ko-container .round-2 div:nth-child(even) .playergrid .linediv {
+  height: 40px !important;
+  margin-top: 40px !important;
+}
+.ko-container .round-2 div:nth-child(odd) .playergrid .linediv {
+  margin-top: -30px;
+  height: 40px !important;
+  margin-bottom: 10px !important;
+}
+.ko-container .round-2 div:nth-child(even) .playergrid .line-2 {
+  border-bottom: 3px solid white;
+  margin-top: 50px;
+  margin-bottom: -15px;
+  margin-left: -3px;
+}
+.round-3 .playergrid {
+  margin: 85px 0px;
 }
 </style>
