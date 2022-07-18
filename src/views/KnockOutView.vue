@@ -95,10 +95,10 @@ export default {
                 </li>
               </div>
             </ul>
-            <div class="lines linediv noselect" :class="player.username == null ? 'empty-line' : ''">
+            <div class="lines linediv noselect" v-if="player.round !== 4" :class="player.username == null ? 'empty-line' : ''">
               <span class="line">Lorum</span>
             </div>
-            <div class="lines line-2 noselect" :class="player.username == null ? 'empty-line-2' : ''">
+            <div class="lines line-2 noselect" v-if="player.round !== 4" :class="player.username == null ? 'empty-line-2' : ''">
               <span class="line">Lorum</span>
             </div>
           </div>
@@ -240,5 +240,8 @@ export default {
 }
 .ko-container .round-3 div:nth-child(even) .playergrid .line-2 {
   margin-top: 150px;
+}
+.round-4 .playergrid {
+  margin: 175px 0px;
 }
 </style>
