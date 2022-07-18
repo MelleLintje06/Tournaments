@@ -69,7 +69,6 @@ export default {
       this.GetAllPlayers();
       this.GetRounds();
       this.GetOrders();
-      // this.DisableInspect()
     }
 }
 </script>
@@ -88,18 +87,18 @@ export default {
         </h4>
         <div v-for="player in Players">
           <div v-if="player.round === round.round" class="playergrid" :class="player.winner == null ? 'unknown' : player.winner ? 'winner' : 'loser'">
-            <ul class="player" :class="player.Username == null ? 'empty' : ''">
+            <ul class="player" :class="player.username == null ? 'empty' : ''">
               <div class="player-info">
                 <li :class="player.winner == null ? '' : player.winner ? '' : 'noselect'">
-                  <div class="username">{{ player.Username }}</div>
+                  <div class="username">{{ player.username }}</div>
                   <div class="noselect">{{ player.score }}</div>
                 </li>
               </div>
             </ul>
-            <div class="lines linediv noselect">
+            <div class="lines linediv noselect" :class="player.username == null ? 'empty-line' : ''">
               <span class="line">Lorum</span>
             </div>
-            <div class="lines line-2 noselect">
+            <div class="lines line-2 noselect" :class="player.username == null ? 'empty-line-2' : ''">
               <span class="line">Lorum</span>
             </div>
           </div>
@@ -183,12 +182,21 @@ export default {
   -ms-user-select: none;
   user-select: none;
 }
-.loser .linediv {
+.loser .linediv, 
+.empty-line,
+.empty-line-2 {
   opacity: .2;
   position: relative;
   z-index: 99;
 }
-.loser .player, .empty {
+.empty-line-2 {
+  margin-right: 0px;
+  z-index: 100;
+  opacity: 1;
+  border-color: #3D3945 !important;
+}
+.loser .player,
+.empty {
   opacity: .7;
   filter: grayscale(.95);
 }

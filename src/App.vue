@@ -2,7 +2,7 @@
 import { RouterLink, RouterView } from 'vue-router'
 import { Icon } from '@iconify/vue';
 
-const DisableInspect =() => {
+const DisableInspect = () => {
   document.addEventListener('keydown', function() {
     if (event.keyCode == 123) {
       alert("Inspect is not allowed!");
