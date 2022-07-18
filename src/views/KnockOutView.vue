@@ -64,6 +64,14 @@ export default {
             console.log(err);
         });
       },
+      ShowModal(id, name) {
+        if (name !== "...") {
+          document.querySelector(`.modal-${id}`).style.display = "block";
+        }
+      },
+      Close(id) {
+        document.querySelector(`.modal-${id}`).style.display = "none";
+      }
     },
     beforeMount(){
       this.GetAllPlayers();
@@ -89,8 +97,12 @@ export default {
           <div v-if="player.round === round.round" class="playergrid" :class="player.winner == null ? 'unknown' : player.winner ? 'winner' : 'loser'">
             <ul class="player" :class="player.username == null ? 'empty' : ''">
               <div class="player-info">
+                <!-- Give class if player has lost or won -->
                 <li :class="player.winner == null ? '' : player.winner ? '' : 'noselect'">
-                  <div class="username">{{ player.username }}</div>
+                  <!-- Username with link or not -->
+                  <a class="username-link" @click="ShowModal(player.id, player.username)" v-if="player.username !== null && player.winner == 1"><div class="username">{{ player.username }}</div></a>
+                  <a v-else><div class="username">{{ player.username }}</div></a>
+                  <!-- Score of the player -->
                   <div class="noselect">{{ player.score }}</div>
                 </li>
               </div>
@@ -100,6 +112,27 @@ export default {
             </div>
             <div class="lines line-2 noselect" v-if="player.round !== 4" :class="player.username == null ? 'empty-line-2' : ''">
               <span class="line">Lorum</span>
+            </div>
+          </div>
+          <div v-if="player.username !== '...'">
+            <div v-if="player.round == round.round" class="modal" :class="`modal-${player.id}`">
+              <div class="modal-content">
+                <span @click="Close(player.id)" class="close noselect">&times;</span>
+                <h4>{{ player.username }} | #{{ player.id }}</h4>
+                <div class="flex-userinfo">
+                  <div class="div">
+                    <img src="../assets/media/undraw_movie_night_re_9umk.svg">
+                  </div>
+                  <div class="div">
+                    <div class="grid-userinfo">
+                      <div>Gender</div>
+                      <div>Age</div>
+                      <div>W/L ratio</div>
+                      <div>...</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -142,12 +175,16 @@ export default {
   box-shadow: 0px 0px 2px white;
   padding: 5px 10px;
   background-image: linear-gradient(to right, #6912B3 40%, indigo);
+  cursor: pointer;
 }
 .player li div:last-child {
   color: white;
 }
 .username {
   width: 150px;
+}
+.username-link {
+  text-decoration: none;
 }
 .linediv {
   width: 50%;
@@ -243,5 +280,75 @@ export default {
 }
 .round-4 .playergrid {
   margin: 175px 0px;
+}
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 101;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.4);
+  /* opacity: 0.4; */
+}
+.modal-content {
+  background-color: #0c0817;
+  margin: 11% auto;
+  padding: 20px;
+  border: 1px solid white;
+  border-radius: 5px;
+  box-shadow: 0px 0px 5px white;
+  width: 80%;
+  height: 50%;
+}
+.close {
+  margin-top: -10px;
+  color: white;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+.close:hover,
+.close:focus {
+  color: whitesmoke;
+  text-decoration: none;
+  cursor: pointer;
+}
+.modal-content h4 {
+  font-size: 26px;
+  letter-spacing: 1px;
+  text-align: center;
+  width: 100%;
+  margin-top: 10px;
+  text-decoration-line: underline;
+  text-decoration-style: solid;
+  text-decoration-color: #6912B3;
+}
+.flex-userinfo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 80%;
+  margin-inline: auto;
+  height: 40vh;
+}
+.flex-userinfo img {
+  width: 100%;
+  height: auto;
+}
+.flex-userinfo .div:first-child {
+  width: 50%;
+}
+.flex-userinfo .div:last-child {
+  width: 50%;
+  height: auto;
+  overflow-y: auto;
+  margin-inline: auto;
+}
+.grid-userinfo {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
 }
 </style>
