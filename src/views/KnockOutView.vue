@@ -130,7 +130,6 @@ export default {
   text-align: left;
   padding: 0px;
   border-radius: 5px;
-  margin-left: auto;
   margin-top: 0px;
   margin-bottom: 0px;
 }
@@ -217,7 +216,21 @@ export default {
   margin-bottom: -15px;
   margin-left: -3px;
 }
-.round-3 .playergrid {
-  margin: 85px 0px;
+.round-3 div:nth-child(even) .playergrid {
+  margin: -15px 0px;
+}
+.round-3 div:nth-child(odd) .playergrid {
+  margin: 65px 0px;
+}
+.ko-container .round-3 div:nth-child(even) .playergrid .linediv {
+  margin-top: 100px;
+  height: 100px;
+}
+.ko-container .round-3 div:nth-child(odd) .playergrid .linediv {
+  height: 100px;
+  margin-top: -100px;
+}
+.ko-container .round-3 div:nth-child(even) .playergrid .line-2 {
+  margin-top: 150px;
 }
 </style>
