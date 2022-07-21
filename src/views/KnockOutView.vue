@@ -4,6 +4,7 @@ export default {
     return {
       currentID: this.$route.params.id,
       API: `https://api.learn4coding.nl/api/knockouts/${ this.$route.params.id }`,
+      Details: "",
       Players: "",
       Rounds: "",
       Orders: "",
@@ -11,6 +12,25 @@ export default {
     }
   },
   methods: {
+      GetKnockOutInfo() {
+        // Fetch information about knockout
+        fetch(`${this.API}?details=true`, {
+            "method": "GET",
+        })
+        .then(response => { 
+            if(response.ok){
+                return response.json()    
+            } else{
+                alert("Server returned " + response.status + " : " + response.statusText);
+            }                
+        })
+        .then(response => {
+            this.Details = response;
+        })
+        .catch(err => {
+            console.log(err);
+        });
+      },
       GetAllPlayers() {
         // Fetch all players 
         fetch(this.API, {
@@ -94,6 +114,7 @@ export default {
       },
     },
     beforeMount(){
+      this.GetKnockOutInfo(); 
       this.GetAllPlayers();
       this.GetRounds();
       this.GetOrders();
@@ -103,6 +124,7 @@ export default {
 <template>
   <div>
     <h1>Knock Out | O=('-'Q)</h1>
+    <div class="description" style="margin-top: -15px; font-size: 15px;">{{ Details.description }}</div>
     <!-- Container -->
     <div class="ko-container">
       <!-- Get Rounds in order -->
