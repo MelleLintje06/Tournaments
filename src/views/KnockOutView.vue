@@ -118,7 +118,7 @@ export default {
             <div v-if="player.round == round.round" class="modal" :class="`modal-${player.id}`">
               <div class="modal-content">
                 <span @click="Close(player.id)" class="close noselect">&times;</span>
-                <h4>{{ player.username }} | #{{ player.id }}</h4>
+                <h4>{{ player.username }}</h4>
                 <div class="flex-userinfo">
                   <div class="div">
                     <img src="../assets/media/undraw_movie_night_re_9umk.svg">
@@ -301,7 +301,7 @@ export default {
   border-radius: 5px;
   box-shadow: 0px 0px 5px white;
   width: 80%;
-  height: 50%;
+  height: 49%;
 }
 .close {
   margin-top: -10px;
