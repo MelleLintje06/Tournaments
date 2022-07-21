@@ -152,14 +152,14 @@ export default {
                   <!-- Player Information about current game -->
                   <div class="div">
                     <div class="grid-userinfo">
-                      <div>Gender</div>
-                      <div>Age</div>
+                      <div><span>Gender</span> <br> {{ player.gender ? player.gender : 'Unknown'}}</div>
+                      <div><span>Age</span> <br> {{ player.age ? player.age : 'Unknown'}}</div>
                       <div>
-                        W/L ratio
+                        <span>Win/Lose ratio</span>
                         <br/>
                         <span v-text="WLRatio"></span>
                       </div>
-                      <div>...</div>
+                      <div><span>Description</span> <br> {{ player.description ? player.description : '...'}}</div>
                     </div>
                   </div>
                 </div>
@@ -361,9 +361,8 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 80%;
+  /* width: 80%; */
   margin-inline: auto;
-  height: 40vh;
 }
 .flex-userinfo img {
   width: 100%;
@@ -381,5 +380,15 @@ export default {
 .grid-userinfo {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+  height: 30vh;
+}
+.grid-userinfo div {
+  margin: 20px 0px;
+}
+.grid-userinfo div span:first-child {
+  text-decoration-line: underline;
+  text-decoration-style: solid;
+  text-decoration-color: #6912B3;
+  margin-bottom: 10px;
 }
 </style>
