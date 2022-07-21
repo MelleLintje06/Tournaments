@@ -11,7 +11,8 @@ export default {
     }
   },
   methods: {
-      GetAllPlayers() {  
+      GetAllPlayers() {
+        // Fetch all players 
         fetch(this.API, {
             "method": "GET",
         })
@@ -30,6 +31,7 @@ export default {
         });
       },
       GetRounds() {  
+        // Fetch all rounds of the tournament
         fetch(`${this.API}?rounds=true`, {
             "method": "GET",
         })
@@ -48,6 +50,7 @@ export default {
         });
       },
       GetOrders() {  
+        // Fetch all players bases on the game they will be playing in
         fetch(`${this.API}?orders=true`, {
             "method": "GET",
         })
@@ -67,22 +70,26 @@ export default {
       },
       ShowModal(id, name, round, ordernr) {
         if (name !== "...") {
+          // Get the two players of the game
           let players = [];
           this.Players.forEach(player => {
             if (player.round == round && player.order == ordernr) {
               players.push(player)
             }
           })
+          // Check if the first player is the player to open the modal
           if (id == players[0].id) {
             this.WLRatio = (players[0].score) / (players[1].score + players[0].score) * 100 + "% won"
           }
           else {
             this.WLRatio = (players[1].score) / (players[1].score + players[0].score) * 100 + "% won"
           }
+          // Opens the modal
           document.querySelector(`.modal-${id}`).style.display = "block";
         }
       },
       Close(id) {
+        // Closes current modal
         document.querySelector(`.modal-${id}`).style.display = "none";
       },
     },
@@ -120,22 +127,29 @@ export default {
                 </li>
               </div>
             </ul>
+            <!-- Combine lines bases on even number or odd number. Check CSS for details -->
             <div class="lines linediv noselect" v-if="player.round !== 4" :class="player.username == null ? 'empty-line' : ''">
               <span class="line">Lorum</span>
             </div>
+            <!-- Connnection line to next round -->
             <div class="lines line-2 noselect" v-if="player.round !== 4" :class="player.username == null ? 'empty-line-2' : ''">
               <span class="line">Lorum</span>
             </div>
           </div>
           <div v-if="player.username !== '...'">
+          <!-- Player Modal | Check if player is in the current round and add class to open modal -->
             <div v-if="player.round == round.round" class="modal" :class="`modal-${player.id}`">
               <div class="modal-content">
+                <!-- X button on top right -->
                 <span @click="Close(player.id)" class="close noselect">&times;</span>
+                <!-- Modal title -->
                 <h4>{{ player.username }}</h4>
                 <div class="flex-userinfo">
+                  <!-- Player Image -->
                   <div class="div">
                     <img src="../assets/media/undraw_movie_night_re_9umk.svg">
                   </div>
+                  <!-- Player Information about current game -->
                   <div class="div">
                     <div class="grid-userinfo">
                       <div>Gender</div>
