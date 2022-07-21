@@ -7,6 +7,7 @@ export default {
       Players: "",
       Rounds: "",
       Orders: "",
+      WLRatio: "",
     }
   },
   methods: {
@@ -64,14 +65,26 @@ export default {
             console.log(err);
         });
       },
-      ShowModal(id, name) {
+      ShowModal(id, name, round, ordernr) {
         if (name !== "...") {
+          let players = [];
+          this.Players.forEach(player => {
+            if (player.round == round && player.order == ordernr) {
+              players.push(player)
+            }
+          })
+          if (id == players[0].id) {
+            this.WLRatio = (players[0].score) / (players[1].score + players[0].score) * 100 + "% won"
+          }
+          else {
+            this.WLRatio = (players[1].score) / (players[1].score + players[0].score) * 100 + "% won"
+          }
           document.querySelector(`.modal-${id}`).style.display = "block";
         }
       },
       Close(id) {
         document.querySelector(`.modal-${id}`).style.display = "none";
-      }
+      },
     },
     beforeMount(){
       this.GetAllPlayers();
@@ -100,7 +113,7 @@ export default {
                 <!-- Give class if player has lost or won -->
                 <li :class="player.winner == null ? '' : player.winner ? '' : 'noselect'">
                   <!-- Username with link or not -->
-                  <a class="username-link" @click="ShowModal(player.id, player.username)" v-if="player.username !== null && player.winner == 1"><div class="username">{{ player.username }}</div></a>
+                  <a class="username-link" @click="ShowModal(player.id, player.username, player.round, player.order)" v-if="player.username !== null && player.winner == 1"><div class="username">{{ player.username }}</div></a>
                   <a v-else><div class="username">{{ player.username }}</div></a>
                   <!-- Score of the player -->
                   <div class="noselect">{{ player.score }}</div>
@@ -127,7 +140,11 @@ export default {
                     <div class="grid-userinfo">
                       <div>Gender</div>
                       <div>Age</div>
-                      <div>W/L ratio</div>
+                      <div>
+                        W/L ratio
+                        <br/>
+                        <span v-text="WLRatio"></span>
+                      </div>
                       <div>...</div>
                     </div>
                   </div>
