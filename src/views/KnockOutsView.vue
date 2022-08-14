@@ -9,7 +9,7 @@
       }
     },
     methods: {
-      async KnockOutAPIData() {  
+      KnockOutAPIData() {  
         fetch(this.KnockOutAPI, {
             "method": "GET",
         })
@@ -27,7 +27,7 @@
             console.log(err);
         });
       },
-      async UsersAPIData() {  
+      UsersAPIData() {  
         fetch(this.PersonsAPI, {
             "method": "GET",
         })
@@ -44,6 +44,46 @@
         .catch(err => {
             console.log(err);
         });
+      },
+      FilterData() {
+        let option = document.querySelector('.select-order').selectedOptions[0].value.toLowerCase();
+        let knockouts = this.knockouts
+        document.querySelector('#remove-filter').style.display = 'block';
+        // Option Date | Done
+        if (option === 'date') {
+          knockouts.sort((a, b) => {
+            // Sort based on date created
+            let c = new Date(a.date)
+            let d = new Date(b.date)
+            return c - d;
+          });
+        }
+        // Option Amount
+        else if (option === 'amount') {}
+        // Option Selections
+        else if (option === 'selections') {}
+        // Options Active | Done
+        else if (option === 'creator') {
+          knockouts.sort((a, b) => {
+            // Sort based on ID
+            return a.creator_id - b.creator_id || a.id - b.id;
+          });
+        }
+        // Options Viewed
+        else if (option === 'viewed') {}
+        // Options ID | Done
+        else {
+          knockouts.sort((a, b) => {
+            // Sort based on ID
+            return a.id - b.id;
+          });
+          document.querySelector('#remove-filter').style.display = 'none';
+        }
+      },
+      ClearFilter() {
+        document.querySelector('#remove-filter').style.display = 'none';
+        document.querySelector('.select-filter').selected = true;
+        this.FilterData();
       }
     },
     beforeMount(){
@@ -54,6 +94,19 @@
 </script>
 <template>
   <h1>All Knock-Outs</h1>
+  <div class="filter">
+    <button id="remove-filter" @click="ClearFilter()">Clear filter</button>
+    <span>Filter: </span>
+    <select class="select-order" @change="FilterData()">
+      <option class="select-filter" disabled selected>Select Filter</option>
+      <option>Date</option>
+      <option>Amount</option>
+      <option>Selections</option>
+      <option>Creator</option>
+      <option>Viewed</option>
+    </select>
+  </div>
+  
   <div class="grid">
     <a v-for="item in knockouts" class="griditem" :href="'/knockout/' + item.id">
       <div class="gridimage">
@@ -123,5 +176,26 @@
   .gridimage img {
     width: 100%;
     border-radius: 5px;
+  }
+  .filter {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    display: flex;
+  }
+  .filter button {
+    background-color: #6912B3;
+    border-radius: 5px;
+    box-shadow: 0px 0px 2px white;
+    margin-right: 5px;
+    display: none;
+  }
+  .select-order {
+    width: 200px;
+    color: black;
+    border-radius: 25px;
+  }
+  .select-order option {
+    background-color: black;
   }
 </style>

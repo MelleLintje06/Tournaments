@@ -124,7 +124,7 @@ export default {
 <template>
   <div>
     <h1>Knock Out | O=('-'Q)</h1>
-    <div class="description" style="margin-top: -15px; font-size: 15px;">{{ Details.description }}</div>
+    <div class="description" style="margin-top: -15 px; font-size: 15px;">{{ Details.description }}</div>
     <!-- Container -->
     <div class="ko-container">
       <!-- Get Rounds in order -->
